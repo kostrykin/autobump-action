@@ -24,11 +24,8 @@ jobs:
         with:
           labels: autobump-test
 
-      - name: Debug
-        run: git branch
+      - run: git checkout "${{ steps.autobump.outputs.pull-request-branch }}"
         shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: peter-evans/close-pull@v3
         with:
