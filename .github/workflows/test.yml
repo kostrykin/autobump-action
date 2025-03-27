@@ -60,3 +60,33 @@ jobs:
       
       - run: exit 1
         if: ${{ steps.autobump.outputs.pull-request-number != '' }}
+  
+  test-input-branch:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - run: python .github/setup-test.py
+        shell: bash
+
+      - uses: ./
+        id: autobump
+        with:
+          base: ${{ github.event.repository.default_branch }}
+          glob: |
+            .github/*.txt
+            .github/*.md
+          branch: autobump/input-branch
+
+      - uses: peter-evans/close-pull@v3
+        with:
+          pull-request-number: ${{ steps.autobump.outputs.pull-request-number }}
+          comment: Closing autobump-test pull request
+          delete-branch: true
+
+      - run: exit 1
+        shell: bash
+        if: ${{ steps.autobump.outputs.branch != 'autobump/input-branch' }}
+
+      - run: echo "<${{ steps.autobump.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY
