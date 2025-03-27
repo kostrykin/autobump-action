@@ -27,6 +27,8 @@ jobs:
       - name: Debug
         run: gh pr list
         shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: peter-evans/close-pull@v3
         with:
