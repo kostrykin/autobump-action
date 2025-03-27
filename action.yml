@@ -4,6 +4,7 @@ inputs:
   glob:
     type: string
     required: true
+    default: '["*"]'
 
   labels:
     type: string
