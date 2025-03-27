@@ -12,6 +12,9 @@ jobs:
 
       - uses: actions/checkout@v4
 
+      - run: python .github/setup-test.py
+        shell: bash
+
       - uses: ./
         id: autobump
 

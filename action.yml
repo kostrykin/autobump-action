@@ -4,7 +4,7 @@ inputs:
   glob:
     type: string
     required: true
-    default: '["*"]'
+    default: '*'
 
   labels:
     type: string
@@ -23,7 +23,7 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
-    - run: python autobump.py --glob ${{ fromJSON(inputs.glob) }}
+    - run: python autobump.py --glob "${{ inputs.glob }}"
       shell: bash
 
     - name: Create pull request
