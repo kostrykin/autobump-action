@@ -14,7 +14,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  test:
+  test-glob:
     runs-on: ubuntu-latest
     steps:
 
@@ -38,3 +38,17 @@ jobs:
           delete-branch: true
 
       - run: echo "<${{ steps.autobump.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY
+
+  test-no-changes:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+
+      - uses: ./
+        id: autobump
+        with:
+          glob: LICENSE
+      
+      - run: exit 1
+        if: ${{ steps.autobump.outputs.pull-request-number != '' }}
