@@ -18,6 +18,7 @@ def bump(filepath: str):
 parser = argparse.ArgumentParser()
 parser.add_argument('--glob', type=str, required=True)
 parser.add_argument('--verbose', action='store_true')
+parser.add_argument('--summary', type=str, default='')
 args = parser.parse_args()
 
 glob_paths = shlex.split(args.glob)
@@ -29,6 +30,7 @@ paths = sorted(
     )
 )
 
+num_bumps = 0
 for filepath in paths:
     if not os.path.isfile(filepath):
         continue
@@ -37,3 +39,8 @@ for filepath in paths:
         print(filepath)
 
     bump(filepath)
+    num_bumps += 1
+
+if args.summary:
+    with open(args.summary, 'w') as file:
+        file.write(f'changed-files-count={num_bumps}')

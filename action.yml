@@ -37,8 +37,9 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
-    - run: python autobump.py --glob "${{ inputs.glob }}" --verbose
+    - run: python autobump.py --glob "${{ inputs.glob }}" --verbose --summary "$GITHUB_OUTPUT"
       shell: bash
+      id: autobump
 
     - run: echo "branch=autobump/$(uuidgen)" >> "$GITHUB_OUTPUT"
       shell: bash
@@ -52,4 +53,4 @@ runs:
         labels: ${{ inputs.labels }}
         body: Autobump by [kostrykin/autobump-action](https://github.com/kostrykin/autobump-action)
         branch: ${{ steps.branch.outputs.branch }}
-        commit-message: Autobump
+        commit-message: Autobump ${{ steps.autobump.outputs.changed-files-count }} file(s)
