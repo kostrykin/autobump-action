@@ -37,7 +37,7 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
-    - run: python autobump.py --glob "${{ inputs.glob }}" --verbose --summary "$GITHUB_OUTPUT"
+    - run: autobump.py --glob "${{ inputs.glob }}" --verbose --summary "$GITHUB_OUTPUT"
       shell: bash
       id: autobump
 
