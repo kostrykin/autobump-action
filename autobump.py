@@ -11,7 +11,7 @@ def bump(filepath: str):
 
     with open(filepath) as file:
         content_old = file.read()
-        content_new = content.replace(str(year - 1), str(year))
+        content_new = content_old.replace(str(year - 1), str(year))
 
     if content_old != content_new:
         with open(filepath, 'w') as file:
