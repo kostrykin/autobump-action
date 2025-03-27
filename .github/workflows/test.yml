@@ -44,7 +44,7 @@ jobs:
           comment: Closing autobump-test pull request
           delete-branch: true
 
-      - run: 'echo "test-glob: <${{ steps.autobump.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY'
+      - run: echo "<${{ steps.autobump.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY
 
   test-no-changes:
     runs-on: ubuntu-latest
@@ -89,4 +89,4 @@ jobs:
         shell: bash
         if: ${{ steps.autobump.outputs.branch != 'autobump/input-branch' }}
 
-      - run: 'echo "test-input-branch: <${{ steps.autobump.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY'
+      - run: echo "<${{ steps.autobump.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY
