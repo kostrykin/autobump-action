@@ -24,11 +24,13 @@ jobs:
         with:
           labels: autobump-test
 
-      - run: git checkout "${{ steps.autobump.outputs.pull-request-branch }}"
-        shell: bash
+#      - run: git checkout "${{ steps.autobump.outputs.pull-request-branch }}"
+#        shell: bash
 
       - uses: peter-evans/close-pull@v3
         with:
           pull-request-number: ${{ steps.autobump.outputs.pull-request-number }}
           comment: Auto-closing pull request
           delete-branch: true
+
+      - run: echo "<${{ steps.autobump.outputs.pull-request-url }}>" >> $GITHUB_STEP_SUMMARY

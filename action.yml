@@ -12,6 +12,20 @@ inputs:
     default: autobump
     description: A comma or newline-separated list of labels.
 
+outputs:
+
+  branch:
+    description: The branch name where the changes were pushed.
+    value: ${{ steps.branch.outputs.branch }}
+
+  pull-request-number:
+    description: The pull request number.
+    value: ${{ steps.create-pull-request.outputs.pull-request-number }}
+
+  pull-request-url:
+    description: The URL of the pull request.
+    value: ${{ steps.create-pull-request.outputs.pull-request-url }}
+
 runs:
 
   using: "composite"
@@ -26,10 +40,15 @@ runs:
     - run: python autobump.py --glob "${{ inputs.glob }}"
       shell: bash
 
+    - run: echo "branch=autobump/$(uuidgen)" >> "$GITHUB_OUTPUT"
+      shell: bash
+      id: branch
+
     - name: Create pull request
       uses: peter-evans/create-pull-request@v7
+      id: create-pull-request
       with:
         title: Autobump ${{ github.event.repository.updated_at}}
         labels: ${{ inputs.labels }}
         body: Autobump by [kostrykin/autobump-action](https://github.com/kostrykin/autobump-action)
-        branch: autobump/$(uuidgen)
+        branch: ${{ steps.branch.outputs.branch }}
