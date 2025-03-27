@@ -9,7 +9,7 @@ def bump(filepath: str):
     year = datetime.now().year
     with open(filepath) as file:
         content = file.read()
-        content = content.replace(year - 1, year)
+        content = content.replace(str(year - 1), str(year))
     with open(filepath, 'w') as file:
         file.write(content)
 
