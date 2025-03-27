@@ -12,6 +12,12 @@ inputs:
     default: autobump
     description: A comma or newline-separated list of labels.
 
+  base:
+    type: string
+    required: false
+    default: ''
+    description: The name of the base branch of the pull request.
+
 outputs:
 
   branch:
@@ -54,3 +60,4 @@ runs:
         body: Autobump by [kostrykin/autobump-action](https://github.com/kostrykin/autobump-action)
         branch: ${{ steps.pr_meta.outputs.branch }}
         commit-message: Autobump ${{ steps.autobump.outputs.changed-files-count }} file(s)
+        base: ${{ inputs.base }}
