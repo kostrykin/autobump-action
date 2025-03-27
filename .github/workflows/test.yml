@@ -25,7 +25,7 @@ jobs:
           labels: autobump-test
 
       - name: Debug
-        run: gh pr list
+        run: git branch
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
