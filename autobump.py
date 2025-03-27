@@ -1,6 +1,7 @@
 import argparse
 import glob
 import itertools
+import os
 import shlex
 from datetime import datetime
 
@@ -20,7 +21,7 @@ parser.add_argument('--verbose', action='store_true')
 args = parser.parse_args()
 
 glob_paths = shlex.split(args.glob)
-filepaths = sorted(
+paths = sorted(
     frozenset(
         itertools.chain.from_iterable(
             glob.iglob(glob_path, recursive=True) for glob_path in glob_paths
@@ -28,7 +29,9 @@ filepaths = sorted(
     )
 )
 
-for filepath in filepaths:
+for filepath in paths:
+    if not os.path.isfile(filepath):
+        continue
 
     if args.verbose:
         print(filepath)
