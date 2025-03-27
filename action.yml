@@ -54,7 +54,7 @@ runs:
       id: autobump
 
     - run: |
-        if [ "${{ inputs.branch == '' }}" = "" ]; then
+        if [ "${{ inputs.branch }}" = "" ]; then
           echo "branch=autobump/$(uuidgen)" >> "$GITHUB_OUTPUT"
         else
           echo "branch=${{ inputs.branch }}" >> "$GITHUB_OUTPUT"
