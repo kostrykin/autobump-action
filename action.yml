@@ -1,9 +1,15 @@
-name: 'Run auto-bump'
+name: 'Run autobump'
 inputs:
 
   glob:
     type: string
     required: true
+
+  labels:
+    type: string
+    required: false
+    default: autobump
+    description: A comma or newline-separated list of labels.
 
 runs:
 
@@ -21,3 +27,6 @@ runs:
 
     - name: Create pull request
       uses: peter-evans/create-pull-request@v7
+      with:
+        title: Autobump ${{ github.event.repository.updated_at}}
+        labels: ${{ inputs.labels }}
