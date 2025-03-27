@@ -6,12 +6,11 @@ on:
 
 jobs:
   release:
-    name: 'Release'
+    name: Update tags
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
       contents: write
 
     steps:
-      - name: Update Tags
-        uses: cssnr/update-version-tags-action@v1.2
+      - uses: cssnr/update-version-tags-action@v1.2
