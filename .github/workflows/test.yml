@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches: ['master']
+    paths:
+      - '.github/workflows/test.yml'
+      - 'action.yml'
+      - '**/*.py'
 
 permissions:
   contents: write
