@@ -16,7 +16,7 @@ outputs:
 
   branch:
     description: The branch name where the changes were pushed.
-    value: ${{ steps.branch.outputs.branch }}
+    value: ${{ steps.pr_meta.outputs.branch }}
 
   pull-request-number:
     description: The pull request number.
@@ -43,7 +43,7 @@ runs:
 
     - run: echo "branch=autobump/$(uuidgen)" >> "$GITHUB_OUTPUT"
       shell: bash
-      id: branch
+      id: pr_meta
 
     - name: Create pull request
       uses: peter-evans/create-pull-request@v7
@@ -52,5 +52,5 @@ runs:
         title: Autobump ${{ github.event.repository.updated_at}}
         labels: ${{ inputs.labels }}
         body: Autobump by [kostrykin/autobump-action](https://github.com/kostrykin/autobump-action)
-        branch: ${{ steps.branch.outputs.branch }}
+        branch: ${{ steps.pr_meta.outputs.branch }}
         commit-message: Autobump ${{ steps.autobump.outputs.changed-files-count }} file(s)
