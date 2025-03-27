@@ -31,3 +31,4 @@ runs:
       with:
         title: Autobump ${{ github.event.repository.updated_at}}
         labels: ${{ inputs.labels }}
+        body: Autobump by [kostrykin/autobump-action](https://github.com/kostrykin/autobump-action)

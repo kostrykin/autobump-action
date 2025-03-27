@@ -24,6 +24,10 @@ jobs:
         with:
           labels: autobump-test
 
+      - name: Debug
+        run: gh pr list
+        shell: bash
+
       - uses: peter-evans/close-pull@v3
         with:
           pull-request-number: ${{ steps.autobump.outputs.pull-request-number }}
