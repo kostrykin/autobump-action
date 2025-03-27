@@ -8,11 +8,18 @@ from datetime import datetime
 
 def bump(filepath: str):
     year = datetime.now().year
+
     with open(filepath) as file:
-        content = file.read()
-        content = content.replace(str(year - 1), str(year))
-    with open(filepath, 'w') as file:
-        file.write(content)
+        content_old = file.read()
+        content_new = content.replace(str(year - 1), str(year))
+
+    if content_old != content_new:
+        with open(filepath, 'w') as file:
+            file.write(content_new)
+        return True
+
+    else:
+        return False
 
 
 parser = argparse.ArgumentParser()
@@ -38,8 +45,8 @@ for filepath in paths:
     if args.verbose:
         print(filepath)
 
-    bump(filepath)
-    num_bumps += 1
+    if bump(filepath):
+        num_bumps += 1
 
 if args.summary:
     with open(args.summary, 'w') as file:
