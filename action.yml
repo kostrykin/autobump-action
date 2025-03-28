@@ -7,6 +7,18 @@ inputs:
     default: ''
     description: The name of the branch where the changes should be pushed. Defaults to `autobump/uuid` where the `uuid` is randomly generated.
 
+  commit-message:
+    type: string
+    required: false
+    default: ''
+    description: The commit message to use. Defaults to `Autobump n file(s)` where the `n` is the number of files updated by autobump.
+
+  title:
+    type: string
+    required: false
+    default: ''
+    description: The title of the pull request. Defaults to `Autobump`, followed by the current date and time.
+
   glob:
     type: string
     required: true
@@ -63,6 +75,16 @@ runs:
         else
           echo "branch=${{ inputs.branch }}" >> "$GITHUB_OUTPUT"
         fi
+        if [ "${{ inputs.commit-message }}" = "" ]; then
+          echo "commit-message=Autobump ${{ steps.autobump.outputs.changed-files-count }} file(s)" >> "$GITHUB_OUTPUT"
+        else
+          echo "commit-message=${{ inputs.commit-message }}" >> "$GITHUB_OUTPUT"
+        fi
+        if [ "${{ inputs.title }}" = "" ]; then
+          echo "title=Autobump ${{ github.event.repository.updated_at }}" >> "$GITHUB_OUTPUT"
+        else
+          echo "title=${{ inputs.title }}" >> "$GITHUB_OUTPUT"
+        fi
       shell: bash
       id: pr_meta
 
@@ -70,10 +92,10 @@ runs:
       uses: peter-evans/create-pull-request@v7
       id: create-pull-request
       with:
-        title: Autobump ${{ github.event.repository.updated_at }}
+        title: ${{ steps.pr_meta.outputs.title }}
         labels: ${{ inputs.labels }}
         body: Autobump by [kostrykin/autobump-action](https://github.com/kostrykin/autobump-action)
         branch: ${{ steps.pr_meta.outputs.branch }}
-        commit-message: Autobump ${{ steps.autobump.outputs.changed-files-count }} file(s)
+        commit-message: ${{ steps.pr_meta.outputs.commit-message }}
         base: ${{ inputs.base }}
         draft: ${{ inputs.draft }}
