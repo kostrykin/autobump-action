@@ -24,6 +24,10 @@ inputs:
     default: ''
     description: The name of the base branch of the pull request.
 
+  draft:
+    default: false
+    description: Create a draft pull request if `true` and a pull request that is ready for review if `false`.
+
 outputs:
 
   branch:
@@ -72,3 +76,4 @@ runs:
         branch: ${{ steps.pr_meta.outputs.branch }}
         commit-message: Autobump ${{ steps.autobump.outputs.changed-files-count }} file(s)
         base: ${{ inputs.base }}
+        draft: ${{ inputs.draft }}
